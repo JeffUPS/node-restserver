@@ -1,13 +1,18 @@
+//importamos la libreria mongoose
 const mongoose = require('mongoose');
+//Importamos la libreria uniqueValidator con la cual podremos que no se repitan datos en nuestra base
 const uniqueValidator = require('mongoose-beautiful-unique-validation');
 
+//Imponemos los roles que queremos que los usuarios ingresen y sino ingresan otros nos mostrara un mensaje
 let rolesValidos = {
     values: ['ADMIN_ROLE', 'USER_ROLE'],
     message: '{VALUE} no es un rol valido'
 };
 
+
 let Schema = mongoose.Schema;
 
+//Podremos crear el esquema de una tabla en nuestra base de datos cafe
 let usuarioSchema = new Schema({
     nombre: {
         type: String,
@@ -40,6 +45,7 @@ let usuarioSchema = new Schema({
         default: false
     }
 });
+
 usuarioSchema.methods.toJSON = function() {
     let user = this;
     let userObject = user.toObject();
@@ -49,4 +55,5 @@ usuarioSchema.methods.toJSON = function() {
 }
 usuarioSchema.plugin(uniqueValidator, { message: '{PATH} debe ser unico' });
 
+//Exportamos los modulos de nuestra base de datos
 module.exports = mongoose.model('Usuario', usuarioSchema);
